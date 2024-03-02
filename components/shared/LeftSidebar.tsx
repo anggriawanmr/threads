@@ -1,3 +1,5 @@
+"use client";
+
 import { sidebarLinks } from "@/constants";
 import Image from "next/image";
 import Link from "next/link";
@@ -19,7 +21,7 @@ function LeftSidebar() {
             <Link
               href={link.route}
               key={link.label}
-              className="leftsidebar_link"
+              className={`leftsidebar_link ${isActive && "bg-primary-500"}`}
             >
               <Image
                 src={link.imgURL}
