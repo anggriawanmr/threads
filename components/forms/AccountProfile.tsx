@@ -11,6 +11,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { z } from "zod";
+import Image from "next/image";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserValidation } from "@/lib/validations/user";
@@ -48,13 +49,36 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex flex-col justify-start gap-10"
+      >
         <FormField
           control={form.control}
-          name="username"
+          name="profile_photo"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
+            <FormItem className="flex items-center gap-4">
+              <FormLabel className="account-form_image-label">
+                {field.value ? (
+                  <Image
+                    src={field.value}
+                    alt="profile photo"
+                    width={96}
+                    height={96}
+                    priority
+                    className="rounded-full object-contain"
+                  />
+                ) : (
+                  <Image
+                    src={field.value}
+                    alt="profile photo"
+                    width={96}
+                    height={96}
+                    priority
+                    className="rounded-full object-contain"
+                  />
+                )}
+              </FormLabel>
               <FormControl>
                 <Input placeholder="shadcn" {...field} />
               </FormControl>
