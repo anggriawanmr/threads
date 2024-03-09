@@ -17,6 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { UserValidation } from "@/lib/validations/user";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { ChangeEvent } from "react";
 
 interface Props {
   user: {
@@ -40,6 +41,13 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
       bio: "",
     },
   });
+
+  const handleImage = (
+    e: ChangeEvent,
+    fieldChange: (value: string) => void
+  ) => {
+    e.preventDefault();
+  };
 
   function onSubmit(values: z.infer<typeof UserValidation>) {
     // Do something with the form values.
@@ -70,17 +78,22 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
                   />
                 ) : (
                   <Image
-                    src={field.value}
+                    src="/assets/profile.svg"
                     alt="profile photo"
-                    width={96}
-                    height={96}
-                    priority
-                    className="rounded-full object-contain"
+                    width={24}
+                    height={24}
+                    className="object-contain"
                   />
                 )}
               </FormLabel>
-              <FormControl>
-                <Input placeholder="shadcn" {...field} />
+              <FormControl className="flex-1 text-base-semibold text-gray-200">
+                <Input
+                  placeholder="Upload a photo"
+                  accept="image/*"
+                  type="file"
+                  className="account-form_image-input"
+                  onChange={(e) => handleImage(e, field.onChange)}
+                />
               </FormControl>
               <FormDescription>
                 This is your public display name.
