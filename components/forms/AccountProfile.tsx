@@ -18,7 +18,7 @@ import { UserValidation } from "@/lib/validations/user";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 
 interface Props {
   user: {
@@ -33,6 +33,8 @@ interface Props {
 }
 
 const AccountProfile = ({ user, btnTitle }: Props) => {
+  const [files, setFiles] = useState<File[]>([]);
+
   const form = useForm({
     resolver: zodResolver(UserValidation),
     defaultValues: {
@@ -44,10 +46,18 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
   });
 
   const handleImage = (
-    e: ChangeEvent,
+    e: ChangeEvent<HTMLInputElement>,
     fieldChange: (value: string) => void
   ) => {
     e.preventDefault();
+
+    const fileReader = new FileReader();
+
+    if (e.target.files && e.target.files.length > 1) {
+      const file = e.target.files[0];
+
+      setFiles(Array.from(e.target.files));
+    }
   };
 
   function onSubmit(values: z.infer<typeof UserValidation>) {
